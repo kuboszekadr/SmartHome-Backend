@@ -1,0 +1,26 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+<link rel="stylesheet"
+    href="{{url_for('.static', filename='darkly.css')}}">
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block navbar %}
+  <div class="container">
+    <!--Nav bar-->
+    <ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/index">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/stats">Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/scheduler">Scheduler</a>
+    </li>
+    </ul>
+    <!--End of Nav bar-->
+  </div>
+{% endblock %}

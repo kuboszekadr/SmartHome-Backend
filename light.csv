@@ -1,0 +1,5 @@
+id;name;timestamp_from;timestamp_to
+1;Dawn;09:00;11:00
+2;Daylight;11:00;18:00
+3;Dusk;18:00;21:00
+4;Nighlight;21:00;23:00

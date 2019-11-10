@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="static/moment.min.js"></script>
+<script src="static/Chart.min.js"></script>
+{{super()}}
+{% endblock %}
+
+{% block title %}Index{% endblock %}
+
+{% block content%}
+  <div class="container">
+  
+  <h4>Sensor family</h4>
+    <!-- Sensor buttons-->
+    {%for sensor in sensors%}
+      <button type="button"
+        class="btn btn-primary btn-sm" 
+        value={{sensor['id_sensor']}}
+        onclick="updateChart(this.value)">
+          {{sensor['sensor_name']}}
+      </button>
+    {% endfor %}
+    <!-- End buttons-->  
+
+    <canvas id="sensorDataChart" width="600" height="400"></canvas>
+  </div>
+<script>
+
+  var chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(231,233,237)'
+  };
+
+  var color = Chart.helpers.color;
+  var ctx = document.getElementById("sensorDataChart").getContext('2d');
+  // Chart data
+  var datasetsDict = {
+    {%for sensor in sensors%}
+      {{sensor['id_sensor']}} : {
+        labels: [{% for lbl in sensors_data[sensor['id_sensor']]['labels'] %} '{{ lbl }}', {% endfor %}],
+        datasets: [{
+          label: '{{sensor['sensor_name']}}',
+          borderColor: chartColors['blue'],
+          data: [{% for value in sensors_data[sensor['id_sensor']]['values']%} {{ value }}, {% endfor %}]
+        }]  // datasets
+      }, // sensor
+    {% endfor %}
+  };  // datasets
+  // End of chart data
+
+  // Chart
+  var chart = new Chart(ctx, {
+      type: 'line',
+      data: datasetsDict[1],
+      options: {
+        scales: {
+          xAxes: [{
+            type: 'time',
+            distribution: 'linear',
+            time: {
+              parser: 'YYYY/MM/DD HH:mm',
+              format: 'h',
+              tooltipFormat: 'HH:mm'
+            }  // time
+          }] // xAxes
+        }  //scales
+        , elements: {
+          point: {
+            radius: 0
+          }  // point
+        }  // elements
+        , legend : {
+          position: 'bottom'
+        }  // legend
+        , layout: {
+          padding: {
+              left: 50,
+              right: 50,
+              top: 50,
+              bottom: 50
+          }  // padding
+        }  // layout        
+      }  //options
+    }); // chart
+    // End of chart
+
+ // Function runs on chart type select update
+ function updateChart(val) {
+   chart.data = datasetsDict[val];
+   chart.update();
+ };
+</script>
+{% endblock %}

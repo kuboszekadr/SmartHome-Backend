@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="static/moment.min.js"></script>
+<script src="static/Chart.min.js"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+{{super()}}
+{% endblock %}
+
+{% block title %}Index{% endblock %}
+
+{% block content%}
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="card border-secondary mb-3" style="max-width: 10rem;">
+        <div class="card-header"><i data-feather="thermometer"></i> Temp </div>
+        <div class="card-body">
+          <p class="card-text">25.55 'C</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+      <div class="card border-secondary mb-3" style="max-width: 10rem;">
+        <div class="card-header"><i data-feather="aperture"></i> Ph </div>
+        <div class="card-body">
+          <p class="card-text">6.67</p>
+        </div>
+      </div>  
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+        <div class="card border-secondary mb-3" style="max-width: 20rem;">
+          <div class="card-header"><i data-feather="droplet"></i> Water</div>
+          <div class="card-body">
+            <p class="card-text">Water level: 15cm</p>
+            <p class="card-text">Last change: 9:00</p>
+            <p class="card-text">Next change: 9:00</p>
+          </div>
+        </div>  
+      </div>    
+
+    <div class="col-lg-4">
+        <div class="card border-secondary mb-3" style="max-width: 20rem;">
+          <div class="card-header"><i data-feather="sun"></i> Lightning</div>
+          <div class="card-body">
+            <p class="card-text">Current program: dusk</p>
+            <p class="card-text">Ending at: 11:00</p>
+            <p class="card-text">Next program: sunlight</p>
+          </div>
+        </div>  
+      </div>    
+    </div>    
+  </div>
+
+
+
+  <!--
+  <i data-feather="sunset"></i>
+  <i data-feather="sun"></i>
+  <i data-feather="moon"></i>
+  -->
+
+</div>
+
+    <script>
+      feather.replace()
+    </script>
+{% endblock %}
