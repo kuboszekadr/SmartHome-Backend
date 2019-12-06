@@ -57,7 +57,9 @@
     </div>    
   </div>
 
-
+  <button onclick="test()">
+    Request for water change
+  </button>
 
   <!--
   <i data-feather="sunset"></i>
@@ -66,8 +68,12 @@
   -->
 
 </div>
-
     <script>
       feather.replace()
+
+      function test() {
+        console.log("Button clicked");
+        $.get("http://192.168.0.198/orders", "order=test");
+      }
     </script>
 {% endblock %}

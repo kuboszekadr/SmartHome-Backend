@@ -27,7 +27,9 @@
                 <td>{{row['amount']}}</td>
                 <td>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch{{row['day']}}" checked="{{row['active']}}">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch{{row['day']}}" 
+                            {% if row['active'] %} checked {% endif %}
+                        >
                         <label class="custom-control-label" for="customSwitch{{row['day']}}"></label>
                     </div>        
                 </td>

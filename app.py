@@ -1,15 +1,27 @@
 import pandas as pd
+from sqlalchemy import create_engine
 
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from utils import *
 # from math import floor, ceil
 
+
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+def connection():
+    username = 'postgres'
+    pwd = 'Polki123'
+    host = '192.168.0.179'
+    db = 'postgres'
+
+    engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(username, pwd, host, db))
+    return engine
 
 
 @app.route('/')
@@ -21,39 +33,37 @@ def index():
 @app.route('/aquarium', methods=['POST', 'GET'])
 def aquarium():
     if request.method == 'POST':
-        aquarium_post(request.args)
+        aquarium_post(request.query_string.decode())
     elif request.methos == 'GET':
         aquarium_get()
 
     return ('', 204)
 
 
-def aquarium_post(args):
+def aquarium_post(stream):
     # Parse post data
-    id_sensors = args.get('id_sensor').split(';')
-    values = args.get('value').split(';')
-    timestamps = args.get('timestamp').split(';')
+    print(stream)
+    sensors_values = [x.split(',') for x in stream.split(';')]  # split data into sensors
+    conn = connection()
 
-    # conn = connection(args.get('user'), args.get('pwd'))
-    
-    query = "insert into public.readings values "
-    _query = "({id_sensor}, {value}, {timestamp})"
-    values_query = []
+    # prepare query string
+    query = "insert into public.readings (id_sensor, value, timestamp) values "
+    _query = "({_id_sensor}, {_value}, '{_timestamp}')"
+    values = []
 
-    for i in range(0, len(id_sensors)):
+    for sensor_data in sensors_values:
         # get entry data
-        _id_sensor = id_sensors[i]
-        _value = values[i]
-        _timestamp = timestamps[i]    
+        _id_sensor = sensor_data[0]
+        _value = sensor_data[1]
+        _timestamp = sensor_data[2]
 
         # add new entry into the list
-        values.append(_query.format(id_sensor=_id_sensor, 
-                                    value=_value, 
-                                    timestamp=_timestamp))     
+        values.append(_query.format(_id_sensor=_id_sensor, 
+                                    _value=_value, 
+                                    _timestamp=_timestamp))     
 
     query += ','.join(values) + ';'  # prepare query string
-    # conn.execute(query)  # execute
-    print(query)
+    conn.execute(query)  # insert data into db
 
     return
 
@@ -65,17 +75,23 @@ def aquarium_get():
 @app.route('/')
 @app.route('/scheduler')
 def scheduler():
-    df = pd.read_csv('scheduler.csv', sep=';', index_col='id')
+    conn = connection()
+    df = pd.read_sql("select id, day, hour, amount, active from aquarium.water_change", index_col='id', con=conn)
+    # df['active'] = df['active'].astype(int)
+
+    # df = pd.read_csv('scheduler.csv', sep=';', index_col='id')
     df.sort_index(inplace=True)
 
     rows = df.to_dict(orient='row')
 
-    df_light_program = pd.read_csv('light.csv', sep=';', index_col='id')
+    df_light_program = pd.read_sql("select id, name, timestamp_from, timestamp_to from aquarium.lightning", con=conn)
+    # df_light_program = pd.read_csv('light.csv', sep=';', index_col='id')
     light_programs = df_light_program.to_dict(orient='row')
+    
+    return render_template('scheduler.html',
+                           rows=rows,
+                           programs=light_programs)
 
-    return render_template('scheduler.html', 
-                            rows=rows, 
-                            programs=light_programs)
 
 @app.route('/')
 @app.route('/stats')
