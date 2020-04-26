@@ -8,7 +8,7 @@ def data_collector():
     # make sure that only post requests are handled
     assert request.method == 'POST'
 
-    data = request.args.get('data')
+    data = request.form['data']
     buf = json.loads(data) # serialize json
 
     for b in buf:
