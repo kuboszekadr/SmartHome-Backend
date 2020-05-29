@@ -23,13 +23,13 @@ def data_collector():
 
 
 def add_sensor_data_to_session(sensor_data):
-    sensor_id = sensor_data['sensor_id']
-    timestamp = sensor_data['ts']
-    values = sensor_data['reading']
+    sensor_id = sensor_data['s']
+    timestamp = sensor_data['t']
+    values = sensor_data['r']
 
     for value in values:
-        measure_id = value['measure_id']
-        value = value['value']
+        measure_id = value['m']
+        value = value['v']
 
         reading = Reading(sensor_id=sensor_id,
                           reading_value=value,
