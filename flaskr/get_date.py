@@ -7,3 +7,4 @@ bp = Blueprint('get_date', __name__)
 def get_date():
     dt = datetime.datetime.now()
     return  dt.strftime("%Y%m%d %H%M%S")
+    

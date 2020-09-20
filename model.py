@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 class Measure(db.Model):
     __tablename__ = 'd_measure'
     measure_id = db.Column(db.Integer(), primary_key=True)
@@ -43,3 +42,20 @@ class ProgramRuntime(db.Model):
 
     step = db.Column(db.Integer())
     is_active = db.Column(db.Boolean())
+
+
+class FrondEndReading(db.Model):
+    __tablename__ = 'reading'
+    db.Model.metadata.schema = 'front_end'    
+    
+    device_id = db.Column(db.Integer(), primary_key=True)
+
+    sensor_id = db.Column(db.Integer(), primary_key=True)
+    sensor_label = db.Column(db.Integer(), primary_key=True)
+
+    measure_id = db.Column(db.Integer(), primary_key=True)
+    measure_name = db.Column(db.String())
+
+    reading_value = db.Column(db.Numeric())
+    reading_count = db.Column(db.Integer())
+    reading_timestamp_label = db.Column(db.String(), primary_key=True)
