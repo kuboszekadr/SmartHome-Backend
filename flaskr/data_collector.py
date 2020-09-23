@@ -45,7 +45,7 @@ def stage_sensor_readings(sensor_data: dict, device_id: int):
         reading = Reading(sensor_id=sensor_id,
                           device_id=device_id,
                           reading_value=value,
-                          reading_measure=measure_id,
+                          measure_id=measure_id,
                           reading_timestamp=timestamp
                           )
 
