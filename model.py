@@ -37,7 +37,7 @@ class Reading(db.Model):
     device_id = db.Column(db.Integer())
 
     reading_value = db.Column(db.Numeric())
-    reading_measure = db.Column(db.Integer())
+    measure_id = db.Column(db.Integer())
     reading_timestamp = db.Column(db.DateTime())
 
 

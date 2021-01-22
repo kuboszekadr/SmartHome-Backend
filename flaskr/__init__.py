@@ -17,7 +17,7 @@ def create_app(test_config=None):
     app.register_blueprint(date.bp)
     app.register_blueprint(chart_data.bp)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:postgres@localhost:5434/smart_home'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:postgres@localhost:5432/smart_home'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)

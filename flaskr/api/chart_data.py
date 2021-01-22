@@ -32,7 +32,7 @@ def get_readings():
     ).order_by(
         FrondEndReading.measure_id,
         FrondEndReading.sensor_id,
-        FrondEndReading.reading_timestamp_label.desc()  # !!! sorting is curtial!!!
+        FrondEndReading.reading_timestamp_label.asc()  # !!! sorting is curtial!!!
     ).all()
 
     # Convert readings into list of dict with column names
