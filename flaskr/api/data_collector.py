@@ -15,7 +15,7 @@ def data_collector():
     {"device_id": 1,
      "data": {
          {"sensor_id":1,
-         "readings":["measure_id":1:, "value":22.22],
+         "readings":[{"measure_id":1, "value":22.22}],
          "timestamp":"20200513 063312"
          }
      }

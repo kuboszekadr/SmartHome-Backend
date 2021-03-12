@@ -2,3 +2,4 @@ __pycache__
 flaskr/__pycache__
 debug.log
 .vscode/
+venv/

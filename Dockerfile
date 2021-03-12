@@ -1,13 +1,10 @@
-FROM python:3.8-buster
+FROM python:3.8-slim
 
 COPY . /SmartHome-Backend
 WORKDIR /SmartHome-Backend
 
-RUN pip install psycopg2-binary
+# RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
-
-# COPY entrypoint.sh /usr/local/bin/
 
 EXPOSE 8000
 CMD ["gunicorn"  , "--bind", "0.0.0.0:8000", "flaskr:create_app()"]
