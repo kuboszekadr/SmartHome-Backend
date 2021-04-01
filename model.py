@@ -41,20 +41,33 @@ class Reading(db.Model):
     reading_timestamp = db.Column(db.DateTime())
 
 
-class ProgramRuntime(db.Model):
-    __tablename__ = 'program_runtime'
+class StgReading(db.Model):
+    __tablename__ = 'reading'
+    __table_args__ = {'schema': 'stg'}
 
-    id = db.Column(db.Integer(),
-                   db.Sequence('program_runtime_id_seq'),
-                   primary_key=True)
+    # dummy primary key here, artificial one
+    sensor_id = db.Column(db.Integer(), primary_key=True)
+    device_id = db.Column(db.Integer())
 
-    program_id = db.Column(db.Integer())
+    reading_value = db.Column(db.Numeric())
+    measure_id = db.Column(db.Integer())
+    reading_timestamp = db.Column(db.DateTime())
 
-    execution_id = db.Column(db.Integer())
-    execution_timestamp = db.Column(db.DateTime())
 
-    step = db.Column(db.Integer())
-    is_active = db.Column(db.Boolean())
+# class ProgramRuntime(db.Model):
+#     __tablename__ = 'program_runtime'
+
+#     id = db.Column(db.Integer(),
+#                    db.Sequence('program_runtime_id_seq'),
+#                    primary_key=True)
+
+#     program_id = db.Column(db.Integer())
+
+#     execution_id = db.Column(db.Integer())
+#     execution_timestamp = db.Column(db.DateTime())
+
+#     step = db.Column(db.Integer())
+#     is_active = db.Column(db.Boolean())
 
 
 class FrondEndReading(db.Model):

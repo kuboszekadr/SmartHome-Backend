@@ -1,7 +1,7 @@
 import json
 
 from flask import Blueprint, request
-from model import db, Reading
+from model import db, StgReading
 
 bp = Blueprint('api_data_collector', __name__)
 
@@ -53,8 +53,8 @@ def stage_sensor_readings(sensor_data: dict, device_id: int):
         measure_id = reading['measure_id']
         value = reading['value']
 
-        # prepare new row
-        r = Reading(sensor_id=sensor_id,
+        # prepare new row for staging
+        r = StgReading(sensor_id=sensor_id,
                     device_id=device_id,
                     reading_value=value,
                     measure_id=measure_id,
