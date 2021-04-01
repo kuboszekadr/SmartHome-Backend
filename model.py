@@ -54,20 +54,20 @@ class StgReading(db.Model):
     reading_timestamp = db.Column(db.DateTime())
 
 
-# class ProgramRuntime(db.Model):
-#     __tablename__ = 'program_runtime'
+class ProgramRuntime(db.Model):
+    __tablename__ = 'program_runtime'
 
-#     id = db.Column(db.Integer(),
-#                    db.Sequence('program_runtime_id_seq'),
-#                    primary_key=True)
+    id = db.Column(db.Integer(),
+                   db.Sequence('program_runtime_id_seq'),
+                   primary_key=True)
 
-#     program_id = db.Column(db.Integer())
+    program_id = db.Column(db.Integer())
 
-#     execution_id = db.Column(db.Integer())
-#     execution_timestamp = db.Column(db.DateTime())
+    execution_id = db.Column(db.Integer())
+    execution_timestamp = db.Column(db.DateTime())
 
-#     step = db.Column(db.Integer())
-#     is_active = db.Column(db.Boolean())
+    step = db.Column(db.Integer())
+    is_active = db.Column(db.Boolean())
 
 
 class FrondEndReading(db.Model):
