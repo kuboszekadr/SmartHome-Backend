@@ -4,6 +4,28 @@ from sqlalchemy.dialects import postgresql
 db = SQLAlchemy()
 
 
+class Measure(db.Model):
+    __tablename__ = "d_measure"
+    measure_id = db.Column(db.Integer(), primary_key=True)
+    measure_name = db.Column(db.String(255))
+
+
+class Sensor(db.Model):
+    __tablename__ = "d_sensor"
+    sensor_id = db.Column(db.Integer(), primary_key=True)
+    sensor_name = db.Column(db.String(255))
+
+
+class DeviceSensor(db.Model):
+    __tablename = "device_sensor"
+
+    device_id = db.Column(db.Integer(), primary_key=True)
+    device_name = db.Column(db.String())
+    sensor_id = db.Column(db.Integer(), primary_key=True)
+    sensor_name = db.Column(db.String())
+    sensor_label = db.Column(db.String())
+    measure_id = db.Column(postgresql.ARRAY(db.Integer()))
+
 class StgReading(db.Model):
     __tablename__ = 'reading'
     __table_args__ = {'schema': 'stg'}
