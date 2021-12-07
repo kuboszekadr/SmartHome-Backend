@@ -1,5 +1,6 @@
 *__pycache__*
 debug.log
 .vscode/
-.env
+.env*
 venv*
+example*
