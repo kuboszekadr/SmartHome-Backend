@@ -31,6 +31,7 @@ def test_data_collector(client):
                         data=json.dumps(data),
                         content_type='application/json')
         assert r.status_code == expected_status_code
+        assert db.session.query(StgReading.device_id).count() == expected_db_count
 
 
 def load_test_sets():

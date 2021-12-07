@@ -5,7 +5,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from flaskr import create_app, db
 
-from model import StgLogs
+from model import StgLog
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def test_logs(client):
                         data=json.dumps(data),
                         content_type='application/json')
         assert r.status_code == expected_status_code
-        assert db.session.query(StgLogs.device_id).count() == expected_db_count
+        assert db.session.query(StgLog.device_id).count() == expected_db_count
 
 
 def load_test_sets():
