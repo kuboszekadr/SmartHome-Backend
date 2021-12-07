@@ -1,7 +1,7 @@
 import json
 
 from flask import Blueprint, request
-from model import db, StgLogs
+from model import db, StgLog
 
 bp = Blueprint('logs', __name__)
 
@@ -17,7 +17,7 @@ def save_logs():
     data = request.get_json()
 
     try:
-        entry = StgLogs(**data)
+        entry = StgLog(**data)
     except TypeError:
         return 'Wrong data schema', 400
 
