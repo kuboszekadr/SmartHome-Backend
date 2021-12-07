@@ -30,19 +30,22 @@ class StgReading(db.Model):
     __tablename__ = 'reading'
     __table_args__ = {'schema': 'stg'}
 
-    # dummy primary key here, artificial one
-    sensor_id = db.Column(db.Integer(), primary_key=True)
+    _id = db.Column(db.Integer(), primary_key=True)
+
+    sensor_id = db.Column(db.Integer())
     device_id = db.Column(db.Integer())
 
     reading_value = db.Column(db.Numeric())
     measure_id = db.Column(db.Integer())
     reading_timestamp = db.Column(db.DateTime())
 
-class StgLogs(db.Model):
-    __tablename__ = 'logs'
+class StgLog(db.Model):
+    __tablename__ = 'log'
     __table_args__ = {'schema': 'stg'}
 
-    device_id = db.Column(db.Integer(), primary_key=True)
+    _id = db.Column(db.Integer(), primary_key=True)
+
+    device_id = db.Column(db.Integer())
     module_name = db.Column(db.String())
     log_level = db.Column(db.String())
     msg = db.Column(db.String())
