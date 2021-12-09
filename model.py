@@ -50,7 +50,7 @@ class StgLog(db.Model):
     log_level = db.Column(db.String())
     msg = db.Column(db.String())
 
-    reading_timestamp = db.Column(db.DateTime())
+    log_timestamp = db.Column(db.DateTime())
 
 
 class FrondEndReading(db.Model):
