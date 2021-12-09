@@ -30,7 +30,7 @@ class StgReading(db.Model):
     __tablename__ = 'reading'
     __table_args__ = {'schema': 'stg'}
 
-    _id = db.Column(db.Integer(), primary_key=True)
+    reading_id = db.Column(db.Integer(), primary_key=True)
 
     sensor_id = db.Column(db.Integer())
     device_id = db.Column(db.Integer())
@@ -43,7 +43,7 @@ class StgLog(db.Model):
     __tablename__ = 'log'
     __table_args__ = {'schema': 'stg'}
 
-    _id = db.Column(db.Integer(), primary_key=True)
+    log_id = db.Column(db.Integer(), primary_key=True)
 
     device_id = db.Column(db.Integer())
     module_name = db.Column(db.String())
