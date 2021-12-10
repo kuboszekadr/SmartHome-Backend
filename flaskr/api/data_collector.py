@@ -53,8 +53,11 @@ def stage_sensor_readings(sensor_data: dict, device_id: int):
     @param sensor_data: data obtained from the device sensor
     @param device_id: device sending the data
     """
-    sensor_id, readings, timestamp = sensor_data.values()
+    sensor_id = sensor_data["sensor_id"]
+    readings = sensor_data["readings"]
 
+    timestamp = sensor_data["timestamp"]
+    
     # one sensor can return multiple measure (for example DHT22)
     for reading in readings:
         measure_id, value = reading.values()
