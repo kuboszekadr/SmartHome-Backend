@@ -30,27 +30,23 @@ class StgReading(db.Model):
     __tablename__ = 'reading'
     __table_args__ = {'schema': 'stg'}
 
-    reading_id = db.Column(db.Integer(), primary_key=True)
-
     sensor_id = db.Column(db.Integer())
     device_id = db.Column(db.Integer())
 
-    reading_value = db.Column(db.Numeric())
-    measure_id = db.Column(db.Integer())
-    reading_timestamp = db.Column(db.DateTime())
+    reading_value = db.Column(db.Numeric(), primary_key=True)
+    measure_id = db.Column(db.Integer(), primary_key=True)
+    reading_timestamp = db.Column(db.DateTime(), primary_key=True)
 
 class StgLog(db.Model):
     __tablename__ = 'log'
     __table_args__ = {'schema': 'stg'}
 
-    log_id = db.Column(db.Integer(), primary_key=True)
-
     device_id = db.Column(db.Integer())
     module_name = db.Column(db.String())
     log_level = db.Column(db.String())
-    msg = db.Column(db.String())
+    msg = db.Column(db.String(), primary_key=True)
 
-    log_timestamp = db.Column(db.DateTime())
+    log_timestamp = db.Column(db.DateTime(), primary_key=True)
 
 
 class FrondEndReading(db.Model):
