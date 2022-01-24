@@ -16,4 +16,5 @@ def date():
     else:
         results = int(time.time())
 
-    return jsonify(date=results)
+    offset = time.localtime().tm_gmtoff / 3600
+    return jsonify(date=results, timezone=offset)

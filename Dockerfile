@@ -3,7 +3,8 @@ FROM python:3.8-slim
 COPY . /SmartHome-Backend
 WORKDIR /SmartHome-Backend
 
-# RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
