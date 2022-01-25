@@ -35,7 +35,7 @@ class StgReading(db.Model):
 
     reading_value = db.Column(db.Numeric(), primary_key=True)
     measure_id = db.Column(db.Integer(), primary_key=True)
-    reading_timestamp = db.Column(db.DateTime(), primary_key=True)
+    reading_timestamp = db.Column(db.DateTime(timezone=True), primary_key=True)
 
 class StgLog(db.Model):
     __tablename__ = 'log'
