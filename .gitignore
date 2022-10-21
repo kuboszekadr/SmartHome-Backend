@@ -2,5 +2,5 @@
 debug.log
 .vscode/
 .env*
-venv*
+venv/*
 example*
