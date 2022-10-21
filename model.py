@@ -26,48 +26,27 @@ class DeviceSensor(db.Model):
     sensor_label = db.Column(db.String())
     measure_id = db.Column(postgresql.ARRAY(db.Integer()))
 
-
-class Reading(db.Model):
-    __tablename__ = 'reading'
-
-    reading_id = db.Column(db.Integer(),
-                           db.Sequence('reading_reading_id_seq'),
-                           primary_key=True)
-    sensor_id = db.Column(db.Integer())
-    device_id = db.Column(db.Integer())
-
-    reading_value = db.Column(db.Numeric())
-    measure_id = db.Column(db.Integer())
-    reading_timestamp = db.Column(db.DateTime())
-
-
 class StgReading(db.Model):
     __tablename__ = 'reading'
     __table_args__ = {'schema': 'stg'}
 
-    # dummy primary key here, artificial one
-    sensor_id = db.Column(db.Integer(), primary_key=True)
+    sensor_id = db.Column(db.Integer())
     device_id = db.Column(db.Integer())
 
-    reading_value = db.Column(db.Numeric())
-    measure_id = db.Column(db.Integer())
-    reading_timestamp = db.Column(db.DateTime())
+    reading_value = db.Column(db.Numeric(), primary_key=True)
+    measure_id = db.Column(db.Integer(), primary_key=True)
+    reading_timestamp = db.Column(db.DateTime(timezone=True), primary_key=True)
 
+class StgLog(db.Model):
+    __tablename__ = 'log'
+    __table_args__ = {'schema': 'stg'}
 
-class ProgramRuntime(db.Model):
-    __tablename__ = 'program_runtime'
+    device_id = db.Column(db.Integer())
+    module_name = db.Column(db.String())
+    log_level = db.Column(db.String())
+    msg = db.Column(db.String(), primary_key=True)
 
-    id = db.Column(db.Integer(),
-                   db.Sequence('program_runtime_id_seq'),
-                   primary_key=True)
-
-    program_id = db.Column(db.Integer())
-
-    execution_id = db.Column(db.Integer())
-    execution_timestamp = db.Column(db.DateTime())
-
-    step = db.Column(db.Integer())
-    is_active = db.Column(db.Boolean())
+    log_timestamp = db.Column(db.DateTime(), primary_key=True)
 
 
 class FrondEndReading(db.Model):

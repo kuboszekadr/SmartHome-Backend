@@ -1,0 +1,34 @@
+[
+    {
+        "data": {
+            "device_id": 1,
+            "module_name": "main",
+            "log_level": "application",
+            "msg": "Test message",
+            "reading_timestamp": "2021-12-07 12:00:00"
+        },
+        "expected_status_code": 200,
+        "db_count": 1
+    },
+    {
+        "data": {
+            "device_ids": 1,
+            "module_name": "main",
+            "log_level": "application",
+            "msg": "Test message",
+            "reading_timestamp": "2021-12-07 12:00:00"
+        },
+        "expected_status_code": 400,
+        "db_count": 1
+    },
+    {
+        "data": {
+            "device_id": 2,
+            "module_name": "main",
+            "msg": "Test message",
+            "reading_timestamp": "2021-12-07 12:00:00"
+        },
+        "expected_status_code": 200,
+        "db_count": 2
+    }
+]

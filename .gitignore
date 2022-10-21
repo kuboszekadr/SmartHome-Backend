@@ -1,6 +1,6 @@
-__pycache__
-flaskr/__pycache__
+*__pycache__*
 debug.log
 .vscode/
-.env
-venv/
+.env*
+venv*
+example*
