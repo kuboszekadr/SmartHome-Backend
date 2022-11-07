@@ -1,73 +1,57 @@
 import json
 
 from flask import Blueprint, request
-from model import db, StgReading
+from model import db
+from model.stg.tables import Reading
 
 bp = Blueprint('api_data_collector', __name__)
 
 
-@bp.route("/api/data_collector", methods=["POST"])
+@bp.route("/api/v2.0/data_collector", methods=["POST"])
 def data_collector():
     """
     Endpoint for data collection from multiple sensors
 
     Expected data format:
-    "device_id": 1,
-    "data": {
-        "sensor_id": 1,
+    {
+        "device_name": "device_name",
+        "sensor_name": "sensor_name",
         "readings": [
-            {
-                "measure_id": 1,
-                "value": 22.22
+            {"measure_name":"measure_name", 
+             "value":22.22,
+             "timestamp":"20200513 063312"
             }
-        ],
-        "timestamp": "20200513 063312"
+        ]
     }
     """
-    # make sure that only post requests are handled
-    assert request.method == 'POST'
-    
-    try:
-        assert request.is_json
-    except AssertionError:
-        return 'Expected application/json content', 400
+    r = json.loads(request)
+
+    readings = r['reading']
+    for reading in readings:
+        stage_sensor_reading(
+            reading,
+            r['device_name'],
+            r['sensor_name']
+        )
+
+    db.session.commit()
+    return '200'
 
 
-    # Parse json request (sent as form)
-    content = request.get_json()
-    device_id = content['device_id']
-
-    # loop through all available messages
-    for d in content['data']:
-        stage_sensor_readings(d, device_id)
-
-    db.session.commit()  # commit the latest changes
-
-    return "OK", 200
-
-
-def stage_sensor_readings(sensor_data: dict, device_id: int):
+def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
     """
     Creates new row to be added into readings table
 
     @param sensor_data: data obtained from the device sensor
     @param device_id: device sending the data
     """
-    sensor_id = sensor_data["sensor_id"]
-    readings = sensor_data["readings"]
 
-    timestamp = sensor_data["timestamp"]
-    
-    # one sensor can return multiple measure (for example DHT22)
-    for reading in readings:
-        measure_id, value = reading.values()
+    r = Reading(
+        sensor_name=sensor_name,
+        device_name=device_name,
 
-        # prepare new row for staging
-        r = StgReading(
-            sensor_id=sensor_id,
-            device_id=device_id,
-            reading_value=value,
-            measure_id=measure_id,
-            reading_timestamp=timestamp
-        )
-        db.session.add(r)  # stage new program entry
+        reading_value=reading['value'],
+        measure_id=reading['measure_id'],
+        reading_timestamp=reading['timestamp']
+    )
+    db.session.add(r)
