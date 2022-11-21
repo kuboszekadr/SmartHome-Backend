@@ -24,21 +24,23 @@ def data_collector():
         ]
     }
     """
-    r = json.loads(request)
+    r: dict = request.get_json()
 
-    readings = r['reading']
+    readings = r['readings']
     for reading in readings:
         stage_sensor_reading(
             reading,
             r['device_name'],
-            r['sensor_name']
+            r.get('sensor_name'),
+            request.remote_addr
         )
+
 
     db.session.commit()
     return '200'
 
 
-def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
+def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str, device_ip: str):
     """
     Creates new row to be added into readings table
 
@@ -49,9 +51,10 @@ def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
     r = Reading(
         sensor_name=sensor_name,
         device_name=device_name,
+        device_ip=device_ip,
 
         reading_value=reading['value'],
-        measure_id=reading['measure_id'],
+        measure_name=reading['measure_name'],
         reading_timestamp=reading['timestamp']
     )
     db.session.add(r)
