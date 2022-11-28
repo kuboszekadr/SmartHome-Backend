@@ -2,12 +2,13 @@ import json
 
 from flask import Blueprint, request
 from model import db
+from flask import jsonify
 from model.stg.tables import Reading
 
 bp = Blueprint('api_data_collector', __name__)
 
 
-@bp.route("/api/v2.0/data_collector", methods=["POST"])
+@bp.route("/api/data_collector", methods=["POST"])
 def data_collector():
     """
     Endpoint for data collection from multiple sensors
@@ -35,10 +36,12 @@ def data_collector():
             request.remote_addr
         )
 
-
-    db.session.commit()
-    return '200'
-
+    try:
+        db.session.commit()
+    except Exception as e:
+        return jsonify(status='Error', msg=str(e)), 500
+    else:
+        return jsonify(status='OK'), 200
 
 def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str, device_ip: str):
     """
