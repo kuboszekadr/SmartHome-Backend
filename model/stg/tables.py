@@ -7,7 +7,6 @@ class Reading(db.Model):
 
     sensor_name = db.Column(db.String(32))
     device_name = db.Column(db.String(32))
-    device_ip = db.Column(db.String(32))
     measure_name = db.Column(db.String(32))
 
     reading_value = db.Column(db.Numeric(), primary_key=True)

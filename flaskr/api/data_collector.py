@@ -33,7 +33,6 @@ def data_collector():
             reading,
             r['device_name'],
             r.get('sensor_name'),
-            request.remote_addr
         )
 
     try:
@@ -43,7 +42,7 @@ def data_collector():
     else:
         return jsonify(status='OK'), 200
 
-def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str, device_ip: str):
+def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
     """
     Creates new row to be added into readings table
 
@@ -54,7 +53,6 @@ def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str, devi
     r = Reading(
         sensor_name=sensor_name,
         device_name=device_name,
-        device_ip=device_ip,
 
         reading_value=reading['value'],
         measure_name=reading['measure_name'],
