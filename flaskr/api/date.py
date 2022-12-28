@@ -6,7 +6,7 @@ from flask_cors import cross_origin
 bp = Blueprint("date", __name__)
 
 
-@bp.route("/api/date", methods=["GET"])
+@bp.route("/api/v1.0/date", methods=["GET"])
 @cross_origin()
 def date():
     format = request.args.get("format")

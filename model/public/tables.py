@@ -1,4 +1,5 @@
 from model import db
+from sqlalchemy.sql import func
 
 
 class Reading(db.Model):
@@ -19,7 +20,7 @@ class Log(db.Model):
     __tablename__ = 'log'
 
     log_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    
+
     device_name = db.Column(db.String(32))
     module_name = db.Column(db.String(32))
 
@@ -27,3 +28,16 @@ class Log(db.Model):
     msg = db.Column(db.String(255))
     log_timestamp = db.Column(db.DateTime())
 
+
+class Device(db.Model):
+    __tablename__ = 'device'
+
+    device_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    device_name = db.Column(db.String(32))
+    device_ip = db.Column(db.String(32))
+
+    last_update = db.Column(
+        db.DateTime(),
+        onupdate=func.now(),
+        default=func.now()
+    )

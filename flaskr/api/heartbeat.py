@@ -1,14 +1,12 @@
-import json
-
 from flask import Blueprint, request
 
 from model import db
-from model.public.tables import Log
+from model.public.tables import Device
 
-bp = Blueprint('logs', __name__)
+bp = Blueprint('heartbeat', __name__)
 
 
-@bp.route("/api/v2.0/logs", methods=["POST"])
+@bp.route("/api/v1.0/heartbeat", methods=["POST"])
 def save_logs():
     """
     #TODO
@@ -17,9 +15,10 @@ def save_logs():
         return "Expected JSON in request", 400
 
     data = request.get_json()
+    data['device_ip'] = request.remote_addr
 
     try:
-        entry = Log(**data)
+        entry = Device(**data)
     except TypeError:
         return 'Wrong data schema', 400
 

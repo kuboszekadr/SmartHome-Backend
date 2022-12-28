@@ -4,3 +4,5 @@ debug.log
 .env*
 venv/*
 example*
+
+*.egg*
