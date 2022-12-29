@@ -2,6 +2,7 @@ from flask import Blueprint, request
 
 from model import db
 from model.public.tables import Device
+from sqlalchemy import update
 
 bp = Blueprint('heartbeat', __name__)
 
@@ -15,7 +16,7 @@ def save_logs():
         return "Expected JSON in request", 400
 
     data = request.get_json()
-    data['device_ip'] = request.remote_addr
+    data['device_ip'] = data.get('device_ip', request.remote_addr)
 
     try:
         entry = Device(**data)
@@ -26,7 +27,11 @@ def save_logs():
     if device is None:
         db.session.add(entry)
     else:
-        setattr(entry, 'device_ip', data['device_ip'])
+        db.session.execute(
+            update(Device)
+            .where(Device.device_name == data['device_name'])
+            .values(device_ip=data['device_ip'])
+        )
 
     db.session.commit()
     return 'OK', 200

@@ -22,7 +22,10 @@ def client():
 
 
 def test_hearbeat(client):
-    data = {'device_name': 'Test'}
+    data = {
+        'device_name': 'Test',
+        'device_ip': '127.0.0.1'
+    }
 
     r = client.post("/api/v1.0/heartbeat",
                     data=json.dumps(data),
@@ -38,8 +41,16 @@ def test_hearbeat(client):
 
     assert db.session.query(Device.device_id).count() == 1
 
+    data['device_ip'] = '192.168.0.0.1'
     r = client.post("/api/v1.0/heartbeat",
                     data=json.dumps(data),
                     content_type='application/json')
-
     assert r.status_code == 200
+
+    record = (
+        db.session
+        .query(Device)
+        .filter(Device.device_name == data['device_name'])
+        .first()
+    )
+    assert record.device_ip == data['device_ip']
