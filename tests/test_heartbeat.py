@@ -22,18 +22,24 @@ def client():
 
 
 def test_hearbeat(client):
-  data = {'device_name': 'Test'}
+    data = {'device_name': 'Test'}
 
-  r = client.post("/api/v1.0/heartbeat",
-                  data=json.dumps(data),
-                  content_type='application/json')
+    r = client.post("/api/v1.0/heartbeat",
+                    data=json.dumps(data),
+                    content_type='application/json')
 
-  assert r.status_code == 200
+    assert r.status_code == 200
 
-  session = db.session.execute("select * from device")
-  state: tuple = session.fetchone()
-  
-  assert state[1] == 'Test'
-  assert state[3] is not None
+    session = db.session.execute("select * from device")
+    state: tuple = session.fetchone()
 
-  assert db.session.query(Device.device_id).count() == 1
+    assert state[1] == 'Test'
+    assert state[3] is not None
+
+    assert db.session.query(Device.device_id).count() == 1
+
+    r = client.post("/api/v1.0/heartbeat",
+                    data=json.dumps(data),
+                    content_type='application/json')
+
+    assert r.status_code == 200

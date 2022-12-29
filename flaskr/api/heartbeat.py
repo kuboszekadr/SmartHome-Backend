@@ -22,7 +22,21 @@ def save_logs():
     except TypeError:
         return 'Wrong data schema', 400
 
-    db.session.add(entry)
-    db.session.commit()
+    device = get_device(data['device_name'])
+    if device is None:
+        db.session.add(entry)
+    else:
+        setattr(entry, 'device_ip', data['device_ip'])
 
+    db.session.commit()
     return 'OK', 200
+
+
+def get_device(device_name: str):
+    result = (db
+              .session
+              .query(Device)
+              .filter(Device.device_name == device_name)
+              .first()
+              )
+    return result
