@@ -6,3 +6,4 @@ venv/*
 example*
 
 *.egg*
+capture/**/*.json

@@ -1,6 +1,9 @@
 import json
+import os
 
+from datetime import datetime as dt
 from flask import Blueprint, request
+
 from model import db
 from flask import jsonify
 from model.stg.tables import Reading
@@ -27,9 +30,13 @@ def data_collector():
     """
     r: dict = request.get_json()
 
+    file_name = get_file_name()
+    file_path = f'./capture/data_collector/{file_name}'
+    capute_request(r, file_path)
+
     readings = r['readings']
     for reading in readings:
-        stage_sensor_reading(
+        stage_reading(
             reading,
             r['device_name'],
             r.get('sensor_name'),
@@ -42,7 +49,7 @@ def data_collector():
     else:
         return jsonify(status='OK'), 200
 
-def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
+def stage_reading(reading: dict, device_name: str, sensor_name: str):
     """
     Creates new row to be added into readings table
 
@@ -59,3 +66,19 @@ def stage_sensor_reading(reading: dict, device_name: str, sensor_name: str):
         reading_timestamp=reading['timestamp']
     )
     db.session.add(r)
+
+def capute_request(r: dict, file_path: str):
+    folder_name = os.path.dirname(file_path)
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+
+    with open(file_path, 'a+') as f:
+        s = json.dumps(r) + '\n'
+        f.write(s)
+
+def get_file_name(ts = dt.now()) -> str:
+    month = ts.strftime('%Y%m')
+    date = ts.strftime('%Y%m%d')
+    
+    file_name = f"{month}/{date}.json"
+    return file_name

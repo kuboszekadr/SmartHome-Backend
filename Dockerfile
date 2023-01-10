@@ -1,7 +1,7 @@
 FROM python:3.8-buster
 
-COPY . /SmartHome-Backend
-WORKDIR /SmartHome-Backend
+COPY . /app
+WORKDIR /app
 
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc
