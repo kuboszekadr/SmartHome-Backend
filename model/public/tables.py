@@ -26,6 +26,7 @@ class Log(db.Model):
     log_level = db.Column(db.String(32))
     msg = db.Column(db.String(255))
     log_timestamp = db.Column(db.DateTime())
+    insert_timestamp = db.Column(db.DateTime(), default=func.now())
 
 
 class Device(db.Model):
@@ -40,3 +41,11 @@ class Device(db.Model):
         onupdate=func.now(),
         default=func.now()
     )
+
+    def to_dict(self):
+            return {
+                'device_id': self.device_id,
+                'device_name': self.device_name,
+                'device_ip': self.device_ip,
+                'last_update': self.last_update.strftime('%Y-%m-%d %H:%M:%S') if self.last_update else None
+            }

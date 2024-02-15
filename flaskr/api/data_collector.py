@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 from datetime import datetime as dt
 from flask import Blueprint, request
@@ -30,7 +31,7 @@ def data_collector():
     """
     r: dict = request.get_json()
 
-    file_name = get_file_name()
+    file_name = get_file_name(dt.now())
     file_path = f'./capture/data_collector/{file_name}'
     capute_request(r, file_path)
 
@@ -76,7 +77,8 @@ def capute_request(r: dict, file_path: str):
         s = json.dumps(r) + '\n'
         f.write(s)
 
-def get_file_name(ts = dt.now()) -> str:
+
+def get_file_name(ts) -> str:
     month = ts.strftime('%Y%m')
     date = ts.strftime('%Y%m%d')
     
