@@ -12,7 +12,8 @@ def create_app(test_config=None):
         logs, 
         solar_panel_value, 
         heartbeat,
-        device
+        device,
+        readings
         )
     
     from .notifier import notifier
@@ -25,6 +26,7 @@ def create_app(test_config=None):
     app.register_blueprint(solar_panel_value.bp)
     app.register_blueprint(heartbeat.bp)
     app.register_blueprint(device.bp)
+    app.register_blueprint(readings.bp)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{pwd}@{ip}:{port}/{db}'.format(
         user=os.environ['DBUSER'],

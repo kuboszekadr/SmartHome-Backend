@@ -11,7 +11,6 @@ class Reading(db.Model):
     measure_name = db.Column(db.String(32))
 
     reading_value = db.Column(db.Numeric())
-    measure_name = db.Column(db.String(32))
     reading_timestamp = db.Column(db.DateTime(timezone=True))
 
 
