@@ -12,8 +12,8 @@ r = aliased(Reading)
 def get_solarpanel_value_stmt(window: int):
     where_condition = (
         (r.device_name == 'SolarMan')
-        & (r.reading_timestamp < db.func.now())
-        & (r.reading_timestamp > db.func.now() - db.func.cast(concat(window, 'minutes'), INTERVAL))
+        & (r.reading_timestamp < db.func.now().op('AT TIME ZONE')('UTC'))
+        & (r.reading_timestamp > db.func.now().op('AT TIME ZONE')('UTC') - db.func.cast(concat(window, 'minutes'), INTERVAL))
     )
 
     select_stmt = (
